@@ -1,5 +1,33 @@
 <html>
 
+<?php
+  function cargarDotenv($archivo)
+  {
+    if (!file_exists($archivo)) {
+      throw new Exception("El archivo .env no existe.");
+    }
+
+    $lineas = file($archivo, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    foreach ($lineas as $linea) {
+      if (strpos(trim($linea), '#') === 0) {
+        continue; // Saltar comentarios
+      }
+
+      list($nombre, $valor) = explode('=', $linea, 2);
+      $nombre = trim($nombre);
+      $valor = trim($valor);
+
+      if (!getenv($nombre)) {
+        putenv("$nombre=$valor");
+      }
+    }
+  }
+
+  // Cargar las variables de entorno desde el archivo .env
+  cargarDotenv(__DIR__ . '/.env');
+?>
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
