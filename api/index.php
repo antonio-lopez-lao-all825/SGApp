@@ -30,7 +30,6 @@
       </thead>
       <tbody>
         <?php
-        require_once('.env');
 
         $conexion = mysqli_connect(getenv('MYSQL_HOST'), getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'), "SG");
 
